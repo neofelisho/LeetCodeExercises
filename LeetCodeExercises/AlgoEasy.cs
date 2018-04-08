@@ -78,27 +78,6 @@ namespace LeetCodeExercises
         }
 
         /// <summary>
-        ///     LeetCode 206
-        /// </summary>
-        /// <param name="head"></param>
-        /// <returns></returns>
-        public ListNode ReverseList(ListNode head)
-        {
-            if (head?.next == null) return head;
-            ListNode reverse = null;
-            var current = head;
-            while (current != null)
-            {
-                var temp = current;
-                current = current.next;
-                temp.next = reverse;
-                reverse = temp;
-            }
-
-            return reverse;
-        }
-
-        /// <summary>
         ///     LeetCode 292 Nim Game
         /// </summary>
         /// <param name="n"></param>
@@ -493,7 +472,6 @@ namespace LeetCodeExercises
                 else
                 {
                     pointA = pointA.next;
-
                 }
 
                 if (pointB.next == null)
@@ -510,6 +488,61 @@ namespace LeetCodeExercises
             }
 
             return pointA;
+        }
+
+        /// <summary>
+        ///     LeetCode 167. Two Sum II - Input array is sorted
+        /// </summary>
+        /// <param name="numbers"></param>
+        /// <param name="target"></param>
+        /// <returns></returns>
+        public int[] TwoSum2(int[] numbers, int target)
+        {
+            if (numbers.Length < 2) return new int[] { };
+            var left = 0;
+            var right = numbers.Length - 1;
+            while (left < right)
+            {
+                var sum = numbers[left] + numbers[right];
+                if (sum == target) return new[] {++left, ++right};
+                if (sum < target)
+                {
+                    left++;
+                    continue;
+                }
+
+                right--;
+            }
+
+            return new int[] { };
+        }
+
+        /// <summary>
+        ///     LeetCode 169. Majority Element
+        /// </summary>
+        /// <param name="nums"></param>
+        /// <returns></returns>
+        public int MajorityElement(int[] nums)
+        {
+            var dic = nums.GroupBy(n => n).ToDictionary(n => n.Key, n => n.Count());
+            return dic.First(x => x.Value == dic.Values.Max()).Key;
+        }
+
+        /// <summary>
+        ///     LeetCode 191. Number of 1 Bits
+        /// </summary>
+        /// <param name="n"></param>
+        /// <returns></returns>
+        public int HammingWeight(uint n)
+        {
+            var count = 0;
+            while (n > 0)
+            {
+                count += (int) (n % 2);
+                n /= 2;
+            }
+
+            return count;
         }
 
         /// <summary>
@@ -533,6 +566,101 @@ namespace LeetCodeExercises
 
                     return dp[nums.Length - 1];
             }
+        }
+
+        /// <summary>
+        ///     LeetCode 206. Reverse Linked List
+        /// </summary>
+        /// <param name="head"></param>
+        /// <returns></returns>
+        public ListNode ReverseList(ListNode head)
+        {
+            if (head?.next == null) return head;
+            ListNode reverse = null;
+            var current = head;
+            while (current != null)
+            {
+                var temp = current;
+                current = current.next;
+                temp.next = reverse;
+                reverse = temp;
+            }
+
+            return reverse;
+        }
+
+        /// <summary>
+        ///     LeetCode 217. Contains Duplicate
+        /// </summary>
+        /// <param name="nums"></param>
+        /// <returns></returns>
+        public bool ContainsDuplicate(int[] nums)
+        {
+            return nums.Distinct().Count() != nums.Length;
+        }
+
+        /// <summary>
+        ///     LeetCode 219. Contains Duplicate II
+        /// </summary>
+        /// <param name="nums"></param>
+        /// <param name="k"></param>
+        /// <returns></returns>
+        public bool ContainsNearbyDuplicate(int[] nums, int k)
+        {
+            var set = new HashSet<int>();
+            for (var i = 0; i < nums.Length; i++)
+            {
+                if (i > k) set.Remove(nums[i - k - 1]);
+                if (!set.Add(nums[i])) return true;
+            }
+
+            return false;
+        }
+
+        /// <summary>
+        ///     LeetCode 226. Invert Binary Tree
+        /// </summary>
+        /// <param name="root"></param>
+        /// <returns></returns>
+        public TreeNode InvertTree(TreeNode root)
+        {
+            if (root == null) return null;
+            var right = InvertTree(root.right);
+            var left = InvertTree(root.left);
+            root.right = left;
+            root.left = right;
+            return root;
+        }
+
+        /// <summary>
+        ///     LeetCode 237. Delete Node in a Linked List
+        /// </summary>
+        /// <param name="node"></param>
+        public void DeleteNode(ListNode node)
+        {
+            if (node.next == null) return;
+            node.val = node.next.val;
+            node.next = node.next.next;
+        }
+
+        /// <summary>
+        ///     LeetCode 242. Valid Anagram
+        /// </summary>
+        /// <param name="s"></param>
+        /// <param name="t"></param>
+        /// <returns></returns>
+        public bool IsAnagram(string s, string t)
+        {
+            var dicS = s.ToCharArray().GroupBy(c => c).ToDictionary(c => c.Key, c => c.Count());
+            var dicT = t.ToCharArray().GroupBy(c => c).ToDictionary(c => c.Key, c => c.Count());
+            if (dicS.Keys.Count != dicT.Keys.Count) return false;
+            foreach (var tKey in dicT.Keys)
+            {
+                if (!dicS.ContainsKey(tKey)) return false;
+                if (dicT[tKey] != dicS[tKey]) return false;
+            }
+
+            return true;
         }
 
         /// <summary>

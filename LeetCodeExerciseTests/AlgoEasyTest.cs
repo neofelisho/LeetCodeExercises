@@ -366,5 +366,62 @@ namespace LeetCodeExerciseTests
             actual = _algo.GetIntersectionNode(headA, headB);
             actual.Should().BeEquivalentTo(headC);
         }
+
+        [DataTestMethod]
+        [DataRow(new[]{1},1,new int[]{})]
+        [DataRow(new []{1,2,3},3,new[]{1,2})]
+        public void TestFor_TwoSum2(int[] nums, int target, int[] expected)
+        {
+            var actual = _algo.TwoSum2(nums, target);
+            actual.Should().BeEquivalentTo(expected);
+        }
+
+        [DataTestMethod]
+        [DataRow(new[]{3,2,3},3)]
+        [DataRow(new[]{1,1,2,1,2,3},1)]
+        public void TestFor_MajorityElement(int[] nums, int expected)
+        {
+            var actual = _algo.MajorityElement(nums);
+            actual.Should().Be(expected);
+        }
+
+        [DataTestMethod]
+        [DataRow(11u,3)]
+        [DataRow(16u,1)]
+        [DataRow(25u,3)]
+        public void TestFor_HammingWeight(uint n, int expected)
+        {
+            var actual = _algo.HammingWeight(n);
+            actual.Should().Be(expected);
+        }
+
+        [DataTestMethod]
+        [DataRow(new[]{1,2,3},false)]
+        [DataRow(new[]{1,2,2,3},true)]
+        public void TestFor_ContainsDuplicate(int[] nums, bool expected)
+        {
+            var actual = _algo.ContainsDuplicate(nums);
+            actual.Should().Be(expected);
+        }
+
+        [DataTestMethod]
+        [DataRow(new[]{1,1},1,true)]
+        [DataRow(new[] { -1, -1 }, 1, true)]
+        [DataRow(new[] { 1, 2,3, 1 }, 2, false)]
+        public void TestFor_ContainsNearbyDuplicate(int[] nums, int k, bool expected)
+        {
+            var actual = _algo.ContainsNearbyDuplicate(nums, k);
+            actual.Should().Be(expected);
+        }
+
+        [DataTestMethod]
+        [DataRow("abcde","aedbc",true)]
+        [DataRow("abcde","abcd",false)]
+        [DataRow("abcde", "afdbc", false)]
+        public void TestFor_IsAnagram(string s, string t, bool expected)
+        {
+            var actual = _algo.IsAnagram(s, t);
+            actual.Should().Be(expected);
+        }
     }
 }
